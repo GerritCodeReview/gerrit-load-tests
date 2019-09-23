@@ -37,6 +37,20 @@ The tool is meant to be run in a container. To build this container, run:
 docker build -t gerrit/loadtester ./container
 ```
 
+## Configuration
+
+A configuration file in yaml-format can be used to configure the test run. The
+`config.sample.yaml`-file gives an example-configuration.
+
+The single configuration values are listed here:
+
+| key                | description                         | default value           |
+|--------------------|-------------------------------------|-------------------------|
+| `gerrit.url`       | URL of the Gerrit test server       | `http://localhost:8080` |
+| `gerrit.user`      | Gerrit user used for tests          | `admin`                 |
+| `gerrit.password`  | Password of Gerrit user             | `secret`                |
+| `testrun.duration` | Duration for which to run the tests | `null` (indefinitely)   |
+
 ## Run
 
 ### Docker
@@ -45,6 +59,7 @@ To run an instance of the load tester. run:
 
 ```sh
 docker run -it gerrit/loadtester \
+  --config $CONFIG_FILE \
   --duration $TEST_DURATION \
   --password $GERRIT_PWD \
   --url $GERRIT_URL \
@@ -53,6 +68,9 @@ docker run -it gerrit/loadtester \
 
 The options are:
 
+- `--config` (default: `None`): Path to a config file (optional). The config file
+  has to be present in the container, either by building it in or by mounting it.
+  Parameters will overwrite configuration from file.
 - `--duration` (default: `None`): Duration, for which to run the tests in
   seconds (optional; if not set, test runs until stopped)
 - `--password` (default: `secret`): Password of Gerrit user used for executing

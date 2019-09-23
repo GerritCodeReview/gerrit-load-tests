@@ -23,17 +23,22 @@ import time
 import numpy as np
 
 import actions
+import config
 
 LOG_PATH = "/var/logs/loadtester.log"
 
 
 class LoadTestInstance:
-    def __init__(self, url, user, pwd, test_duration=None):
-        self.url = url
-        self.user = user
-        self.pwd = pwd
+    def __init__(self, test_config):
+        self.url = test_config["gerrit"]["url"]
+        self.user = test_config["gerrit"]["user"]
+        self.pwd = test_config["gerrit"]["password"]
 
-        self.timeout = time.time() + test_duration if test_duration else None
+        self.timeout = (
+            time.time() + test_config["testrun"]["duration"]
+            if test_config["testrun"]["duration"]
+            else None
+        )
 
         self.owned_projects = set()
         self.cloned_projects = set()
@@ -150,20 +155,13 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "-U", "--url", help="Gerrit base url", dest="url", action="store", required=True
+        "-U", "--url", help="Gerrit base url", dest="url", action="store"
     )
 
-    parser.add_argument(
-        "-u", "--user", help="Gerrit user", dest="user", action="store", default="admin"
-    )
+    parser.add_argument("-u", "--user", help="Gerrit user", dest="user", action="store")
 
     parser.add_argument(
-        "-p",
-        "--password",
-        help="Gerrit password",
-        dest="pwd",
-        action="store",
-        default="secret",
+        "-p", "--password", help="Gerrit password", dest="password", action="store"
     )
 
     parser.add_argument(
@@ -173,10 +171,13 @@ if __name__ == "__main__":
         dest="duration",
         action="store",
         type=int,
-        default=None,
+    )
+
+    parser.add_argument(
+        "-c", "--config", help="Configuration file", dest="config_file", action="store"
     )
 
     args = parser.parse_args()
 
-    test = LoadTestInstance(args.url, args.user, args.pwd, args.duration)
+    test = LoadTestInstance(config.Parser(args).parse())
     test.run()

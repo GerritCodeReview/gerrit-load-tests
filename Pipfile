@@ -11,6 +11,7 @@ black = "~=19.3b0"
 requests = "*"
 gitpython = "*"
 numpy = "*"
+pyyaml = "*"
 
 [requires]
 python_version = "3.7"
