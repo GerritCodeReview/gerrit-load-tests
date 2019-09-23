@@ -13,33 +13,23 @@
 # limitations under the License.
 
 import json
-import traceback
 
 import requests
 
 from . import abstract
 
-# pylint: disable=W0703
+
 class QueryChangeFilesAction(abstract.AbstractAction):
     def __init__(self, change_id, url, user, pwd, probability=0.2):
         super().__init__(url, user, pwd, probability)
         self.change_id = change_id
         self.revision_id = 1
 
-    def execute(self):
-        if self._is_executed():
-            try:
-                response = requests.get(
-                    self._assemble_url(), auth=(self.user, self.pwd)
-                )
-                files = list(json.loads(response.text.split("\n", 1)[1]).keys())
-                self._log_result(files)
-                return files
-            except Exception:
-                self.failed = True
-                self._log_result(traceback.format_exc().replace("\n", " "))
-
-        return None
+    def _execute_action(self):
+        response = requests.get(self._assemble_url(), auth=(self.user, self.pwd))
+        files = list(json.loads(response.text.split("\n", 1)[1]).keys())
+        self._log_result(files)
+        return files
 
     def _assemble_url(self):
         return "%s/a/changes/%s/revisions/%s/files" % (

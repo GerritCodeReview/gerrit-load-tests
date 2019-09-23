@@ -19,5 +19,5 @@ class PushChangeAction(abstract_push.AbstractPushAction):
     def __init__(self, project_name, probability=0.2):
         super().__init__("HEAD:refs/for/master", project_name, probability=probability)
 
-    def execute(self):
-        self._push()
+    def _prepare(self):
+        pass

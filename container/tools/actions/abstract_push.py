@@ -16,13 +16,12 @@ import abc
 import os
 import random
 import string
-import traceback
 
 import git
 
 from . import abstract
 
-# pylint: disable=W0703
+
 class AbstractPushAction(abstract.AbstractAction):
     def __init__(self, refspec, project_name, probability=0.2):
         super().__init__(url=None, user=None, pwd=None, probability=probability)
@@ -33,25 +32,22 @@ class AbstractPushAction(abstract.AbstractAction):
         self.refspec = refspec
 
     @abc.abstractmethod
-    def execute(self):
+    def _prepare(self):
         pass
 
-    def _push(self):
+    def _execute_action(self):
         self.repo.git.checkout("origin/master")
-        if os.path.exists(self.local_repo_path) and self._is_executed():
-            try:
-                num_commits = random.randint(1, 5)
-                for _ in range(num_commits):
-                    self._create_commit()
-                self.repo.remotes.origin.push(refspec=self.refspec)
-                self.was_executed = True
-                self._log_result(
-                    "Pushed %d commits to project %s using refspec %s"
-                    % (num_commits, self.project_name, self.refspec)
-                )
-            except Exception:
-                self.failed = True
-                self._log_result(traceback.format_exc().replace("\n", " "))
+        self._prepare()
+        if os.path.exists(self.local_repo_path):
+            num_commits = random.randint(1, 5)
+            for _ in range(num_commits):
+                self._create_commit()
+            self.repo.remotes.origin.push(refspec=self.refspec)
+            self.was_executed = True
+            self._log_result(
+                "Pushed %d commits to project %s using refspec %s"
+                % (num_commits, self.project_name, self.refspec)
+            )
 
     def _create_commit(self):
         change_type_choice = random.choice(self.change_types)

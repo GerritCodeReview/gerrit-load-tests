@@ -13,27 +13,24 @@
 # limitations under the License.
 
 import os.path
-import traceback
 
 import git
 
 from . import abstract
 
 # pylint: disable=W0703
+
+
 class FetchProjectAction(abstract.AbstractAction):
     def __init__(self, project_name, probability=0.1):
         super().__init__(url=None, user=None, pwd=None, probability=probability)
         self.project_name = project_name
 
-    def execute(self):
+    def _execute_action(self):
         local_repo_path = os.path.join("/tmp", self.project_name)
-        if os.path.exists(local_repo_path) and self._is_executed():
-            try:
-                repo = git.Repo(local_repo_path)
-                for remote in repo.remotes:
-                    remote.fetch()
-                self.was_executed = True
-                self._log_result(self.project_name)
-            except Exception:
-                self.failed = True
-                self._log_result(traceback.format_exc().replace("\n", " "))
+        if os.path.exists(local_repo_path):
+            repo = git.Repo(local_repo_path)
+            for remote in repo.remotes:
+                remote.fetch()
+            self.was_executed = True
+            self._log_result(self.project_name)

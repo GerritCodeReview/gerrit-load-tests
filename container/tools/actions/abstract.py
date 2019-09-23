@@ -14,10 +14,11 @@
 
 import abc
 import logging
+import traceback
 
 import numpy as np
 
-
+# pylint: disable=W0703
 class AbstractAction(abc.ABC):
     def __init__(self, url, user, pwd, probability=1.0):
         self.url = url
@@ -29,8 +30,18 @@ class AbstractAction(abc.ABC):
 
         self.log = logging.getLogger("ActionLogger")
 
-    @abc.abstractmethod
     def execute(self):
+        if self._is_executed():
+            try:
+                return self._execute_action()
+            except Exception:
+                self.failed = True
+                self._log_result(traceback.format_exc().replace("\n", " "))
+
+        return None
+
+    @abc.abstractmethod
+    def _execute_action(self):
         pass
 
     def _log_result(self, message=""):

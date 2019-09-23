@@ -13,7 +13,6 @@
 # limitations under the License.
 
 import random
-import traceback
 
 import requests
 
@@ -28,18 +27,11 @@ class ReviewChangeAction(abstract.AbstractAction):
         self.change_id = self._get_change_id()
         self.revision_id = 1
 
-    def execute(self):
-        if self._is_executed() and self.change_id:
-            try:
-                rest_url = self._assemble_review_url()
-                requests.post(
-                    rest_url, auth=(self.user, self.pwd), json=self._assemble_body()
-                )
-                self.was_executed = True
-                self._log_result()
-            except Exception:
-                self.failed = True
-                self._log_result(traceback.format_exc().replace("\n", " "))
+    def _execute_action(self):
+        rest_url = self._assemble_review_url()
+        requests.post(rest_url, auth=(self.user, self.pwd), json=self._assemble_body())
+        self.was_executed = True
+        self._log_result()
 
     def _get_change_id(self):
         try:

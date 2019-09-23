@@ -20,7 +20,6 @@ class PushCommitAction(abstract_push.AbstractPushAction):
     def __init__(self, project_name, probability=0.2):
         super().__init__("HEAD:master", project_name, probability=probability)
 
-    def execute(self):
+    def _prepare(self):
         action = FetchProjectAction(self.project_name, 1.0)
         action.execute()
-        self._push()

@@ -14,36 +14,23 @@
 
 import json
 import random
-import traceback
 
 import requests
 
 from . import abstract
 
-# pylint: disable=W0703
+
 class QueryChangesAction(abstract.AbstractAction):
     def __init__(self, url, user, pwd, probability=0.2):
         super().__init__(url, user, pwd, probability)
 
-    def execute(self):
-        if self._is_executed():
-            try:
-                rest_url = self._assemble_url()
-                response = requests.get(rest_url, auth=(self.user, self.pwd))
-                self.was_executed = True
-            except Exception:
-                self.failed = True
-                self._log_result(traceback.format_exc().replace("\n", " "))
-                return None
-
-            try:
-                change = random.choice(json.loads(response.text.split("\n", 1)[1]))
-                self._log_result(change["change_id"])
-                return change
-            except Exception:
-                return None
-
-        return None
+    def _execute_action(self):
+        rest_url = self._assemble_url()
+        response = requests.get(rest_url, auth=(self.user, self.pwd))
+        self.was_executed = True
+        change = random.choice(json.loads(response.text.split("\n", 1)[1]))
+        self._log_result(change["change_id"])
+        return change
 
     def _assemble_url(self):
         return "%s/a/changes/?q=status:open&n=100" % (self.url)
