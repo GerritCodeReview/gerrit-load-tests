@@ -14,33 +14,34 @@
 
 import abc
 import logging
-import random
 
 import numpy as np
 
+
 class AbstractAction(abc.ABC):
+    def __init__(self, url, user, pwd, probability=1.0):
+        self.url = url
+        self.user = user
+        self.pwd = pwd
+        self.probability = probability
+        self.was_executed = False
+        self.failed = False
 
-  def __init__(self, url, user, pwd, probability=1.0):
-    self.url = url
-    self.user = user
-    self.pwd = pwd
-    self.probability = probability
-    self.was_executed = False
-    self.failed = False
+        self.log = logging.getLogger("ActionLogger")
 
-    self.log = logging.getLogger("ActionLogger")
+    @abc.abstractmethod
+    def execute(self):
+        pass
 
-  @abc.abstractmethod
-  def execute(self):
-    pass
+    def _log_result(self, message=""):
+        self.log.info(
+            "%s %s %s",
+            self.__class__.__name__,
+            "FAILED" if self.failed else "OK",
+            message,
+        )
 
-  def _log_result(self, message=""):
-    self.log.info("{action} {result} {message}".format(
-      action = self.__class__.__name__,
-      result = "FAILED" if self.failed else "OK",
-      message = message
-    ))
-
-  def _is_executed(self):
-    return np.random.choice(
-      (True, False), 1, p=(self.probability, 1 - self.probability))
+    def _is_executed(self):
+        return np.random.choice(
+            (True, False), 1, p=(self.probability, 1 - self.probability)
+        )

@@ -22,30 +22,30 @@ from . import abstract
 
 DISALLOWED_PROJECTS = ["All-Projects", "All-Users"]
 
+# pylint: disable=W0703
 class QueryProjectsAction(abstract.AbstractAction):
+    def __init__(self, url, user, pwd, probability=0.05):
+        super().__init__(url, user, pwd, probability)
 
-  def __init__(self, url, user, pwd, probability=0.05):
-    super().__init__(url, user, pwd, probability)
+    def execute(self):
+        if self._is_executed():
+            selected_project = None
+            try:
+                rest_url = self._assemble_url()
+                response = requests.get(rest_url, auth=(self.user, self.pwd))
+                self.was_executed = True
+                projects = list(json.loads(response.text.split("\n", 1)[1]).keys())
+                for project in DISALLOWED_PROJECTS:
+                    projects.remove(project)
+                selected_project = random.choice(projects)
+                self._log_result(selected_project)
+            except Exception:
+                self.failed = True
+                self._log_result(traceback.format_exc().replace("\n", " "))
 
-  def execute(self):
-    if self._is_executed():
-      selected_project = None
-      try:
-        rest_url = self._assemble_url()
-        response = requests.get(
-          rest_url,
-          auth=(self.user, self.pwd))
-        self.was_executed = True
-        projects = list(json.loads(response.text.split("\n",1)[1]).keys())
-        for project in DISALLOWED_PROJECTS:
-          projects.remove(project)
-        selected_project = random.choice(projects)
-        self._log_result(selected_project)
-      except Exception:
-        self.failed = True
-        self._log_result(traceback.format_exc().replace("\n", " "))
+            return selected_project
 
-      return selected_project
+        return None
 
-  def _assemble_url(self):
-    return "%s/a/projects/?d" % (self.url)
+    def _assemble_url(self):
+        return "%s/a/projects/?d" % (self.url)

@@ -22,31 +22,36 @@ from . import abstract
 
 PROJECT_NAME_LENGTH = 16
 
+# pylint: disable=W0703
 class CreateProjectAction(abstract.AbstractAction):
+    def __init__(self, url, user, pwd, probability=0.00002):
+        super().__init__(url, user, pwd, probability)
+        self.project_name = self._get_random_project_name()
 
-  def __init__(self, url, user, pwd, probability=0.00002):
-    super().__init__(url, user, pwd, probability)
-    self.project_name = self._get_random_project_name()
+    def execute(self):
+        if self._is_executed():
+            try:
+                rest_url = self._assemble_url()
+                requests.put(
+                    rest_url,
+                    auth=(self.user, self.pwd),
+                    json={"create_empty_commit": "true"},
+                )
+                self.was_executed = True
+                self._log_result(self.project_name)
+                return self.project_name
+            except Exception:
+                self.failed = True
+                self._log_result(traceback.format_exc().replace("\n", " "))
 
-  def execute(self):
-    if self._is_executed():
-      try:
-        rest_url = self._assemble_url()
-        response = requests.put(
-          rest_url,
-          auth=(self.user, self.pwd),
-          json={"create_empty_commit": "true"})
-        self.was_executed = True
-        self._log_result(self.project_name)
-        return self.project_name
-      except Exception:
-        self.failed = True
-        self._log_result(traceback.format_exc().replace("\n", " "))
+        return None
 
-  def _assemble_url(self):
-    return "%s/a/projects/%s" % (self.url, self.project_name)
+    def _assemble_url(self):
+        return "%s/a/projects/%s" % (self.url, self.project_name)
 
-  def _get_random_project_name(self):
-    allowed_symbols = string.ascii_letters + string.digits
-    return "".join(
-      [random.choice(allowed_symbols) for n in range(PROJECT_NAME_LENGTH)])
+    @staticmethod
+    def _get_random_project_name():
+        allowed_symbols = string.ascii_letters + string.digits
+        return "".join(
+            [random.choice(allowed_symbols) for n in range(PROJECT_NAME_LENGTH)]
+        )

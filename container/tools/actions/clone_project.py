@@ -22,40 +22,37 @@ import requests
 
 from . import abstract
 
+# pylint: disable=W0703
 class CloneProjectAction(abstract.AbstractAction):
+    def __init__(self, url, user, pwd, project_name, probability=0.02):
+        super().__init__(url, user, pwd, probability)
+        self.project_name = project_name
 
-  def __init__(self, url, user, pwd, project_name, probability=0.02):
-    super().__init__(url, user, pwd, probability)
-    self.project_name = project_name
+    def execute(self):
+        if self._is_executed():
+            try:
+                local_repo_path = os.path.join("/tmp", self.project_name)
+                if os.path.exists(local_repo_path):
+                    shutil.rmtree(local_repo_path)
+                git.Repo.clone_from(self._assemble_url(), local_repo_path)
+                self._install_commit_hook()
+                self.was_executed = True
+                self._log_result(self.project_name)
+            except Exception:
+                self.failed = True
+                self._log_result(traceback.format_exc().replace("\n", " "))
 
-  def execute(self):
-    if self._is_executed():
-      try:
-        local_repo_path = os.path.join("/tmp", self.project_name)
-        if os.path.exists(local_repo_path):
-          shutil.rmtree(local_repo_path)
-        repo = git.Repo.clone_from(self._assemble_url(), local_repo_path)
-        self._install_commit_hook()
-        self.was_executed = True
-        self._log_result(self.project_name)
-      except Exception:
-        self.failed = True
-        self._log_result(traceback.format_exc().replace("\n", " "))
+    def _install_commit_hook(self):
+        hook_path = os.path.join("/tmp", self.project_name, ".git/hooks/commit-msg")
 
+        url = "%s/tools/hooks/commit-msg" % self.url
+        response = requests.get(url)
 
+        with open(hook_path, "wb+") as f:
+            f.write(response.content)
 
-  def _install_commit_hook(self):
-    hook_path = os.path.join("/tmp", self.project_name, ".git/hooks/commit-msg")
+        os.chmod(hook_path, os.stat(hook_path).st_mode | stat.S_IEXEC)
 
-    url = "%s/tools/hooks/commit-msg" % self.url
-    r = requests.get(url)
-
-    with open(hook_path, 'wb+') as f:
-      f.write(r.content)
-
-    os.chmod(hook_path, os.stat(hook_path).st_mode | stat.S_IEXEC)
-
-
-  def _assemble_url(self):
-    url = "%s/%s.git" % (self.url, self.project_name)
-    return url.replace("//", "//%s:%s@" % (self.user, self.pwd))
+    def _assemble_url(self):
+        url = "%s/%s.git" % (self.url, self.project_name)
+        return url.replace("//", "//%s:%s@" % (self.user, self.pwd))

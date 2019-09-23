@@ -15,12 +15,12 @@
 from . import abstract_push
 from .fetch_project import FetchProjectAction
 
+
 class PushCommitAction(abstract_push.AbstractPushAction):
+    def __init__(self, project_name, probability=0.2):
+        super().__init__("HEAD:master", project_name, probability=probability)
 
-  def __init__(self, project_name, probability=0.2):
-    super().__init__("HEAD:master", project_name, probability=probability)
-
-  def execute(self):
-    action = FetchProjectAction(self.project_name, 1.0)
-    action.execute()
-    self._push()
+    def execute(self):
+        action = FetchProjectAction(self.project_name, 1.0)
+        action.execute()
+        self._push()
