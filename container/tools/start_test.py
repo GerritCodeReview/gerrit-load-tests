@@ -112,13 +112,13 @@ class LoadTestInstance:
         action.execute()
 
     def _exec_push_commit_action(self):
-        action = actions.PushCommitAction(
+        action = actions.PushToBranchAction(
             self._choose_from_list_poisson(list(self.cloned_projects))
         )
         action.execute()
 
     def _exec_push_change_action(self):
-        action = actions.PushChangeAction(
+        action = actions.PushForReviewAction(
             self._choose_from_list_poisson(list(self.cloned_projects))
         )
         action.execute()
