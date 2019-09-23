@@ -1,4 +1,4 @@
-FROM python:3.7-stretch
+FROM python:3.7-alpine
 
 WORKDIR /usr/src/app
 
@@ -7,7 +7,9 @@ ENV LANG=C.UTF-8
 
 COPY tools/ ./
 
-RUN pip install pipenv && \
-    pipenv install --system
+RUN apk --no-cache --update-cache add git gcc gfortran build-base
 
-ENTRYPOINT [ "python", "./start_test.py" ]
+RUN pip3 install --no-cache --upgrade pipenv && \
+    pipenv install --python 3.7.3 --system
+
+ENTRYPOINT [ "python3", "./start_test.py" ]
