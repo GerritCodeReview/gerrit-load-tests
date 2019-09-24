@@ -20,7 +20,10 @@ from .helper_dict import left_outer_join
 
 DEFAULTS = {
     "gerrit": {"url": None, "user": "admin", "password": "secret"},
-    "testrun": {"duration": None},
+    "testrun": {
+        "duration": None,
+        "initialization": {"createProjects": {"enabled": True, "number": 1}},
+    },
     "actions": {
         "clone_project": {"probability": 1},
         "create_project": {"probability": 1},

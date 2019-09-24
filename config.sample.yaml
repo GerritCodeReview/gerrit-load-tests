@@ -5,6 +5,10 @@ gerrit:
 
 testrun:
   duration: null
+  initialization:
+    createProjects:
+      enabled: true
+      number: 1
 
 actions:
   clone_project:

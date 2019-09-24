@@ -45,7 +45,10 @@ class LoadTestInstance:
         self.owned_projects = set()
         self.cloned_projects = set()
 
-        self._create_initial_projects(1)
+        if test_config["testrun"]["initialization"]["createProjects"]["enabled"]:
+            self._create_initial_projects(
+                test_config["testrun"]["initialization"]["createProjects"]["number"]
+            )
 
         self.log = logging.getLogger("ActionLogger")
 

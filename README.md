@@ -44,13 +44,15 @@ A configuration file in yaml-format can be used to configure the test run. The
 
 The single configuration values are listed here:
 
-| key                | description                                                                           | default value           |
-|--------------------|---------------------------------------------------------------------------------------|-------------------------|
-| `gerrit.url`       | URL of the Gerrit test server                                                         | `http://localhost:8080` |
-| `gerrit.user`      | Gerrit user used for tests                                                            | `admin`                 |
-| `gerrit.password`  | Password of Gerrit user                                                               | `secret`                |
-| `testrun.duration` | Duration for which to run the tests                                                   | `null` (indefinitely)   |
-| `actions.*`        | Probability with which an action is performed in each cycle (`0`: never, `1`: always) | `1`                     |
+| key                                             | description                                                                           | default value           |
+|-------------------------------------------------|---------------------------------------------------------------------------------------|-------------------------|
+| `gerrit.url`                                    | URL of the Gerrit test server                                                         | `http://localhost:8080` |
+| `gerrit.user`                                   | Gerrit user used for tests                                                            | `admin`                 |
+| `gerrit.password`                               | Password of Gerrit user                                                               | `secret`                |
+| `testrun.duration`                              | Duration for which to run the tests                                                   | `null` (indefinitely)   |
+| `testrun.initialization.createProjects.enabled` | Whether to create new projects during initialization                                  | `true`                  |
+| `testrun.initialization.createProjects.number`  | How many new projects to create during initialization                                 | `1`                     |
+| `actions.*`                                     | Probability with which an action is performed in each cycle (`0`: never, `1`: always) | `1`                     |
 
 ### Available actions
 
