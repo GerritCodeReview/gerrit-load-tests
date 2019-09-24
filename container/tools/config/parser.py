@@ -26,6 +26,7 @@ DEFAULTS = {
             "createProjects": {"enabled": True, "number": 1},
             "knownProjects": list(),
         },
+        "waitBetweenCycles": {"enabled": True, "min": 1, "max": 10},
     },
     "actions": {
         "clone_project": {"probability": 1},

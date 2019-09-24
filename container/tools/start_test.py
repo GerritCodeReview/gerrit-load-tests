@@ -30,29 +30,31 @@ LOG_PATH = "/var/logs/loadtester.log"
 
 class LoadTestInstance:
     def __init__(self, test_config):
-        self.url = test_config["gerrit"]["url"]
-        self.user = test_config["gerrit"]["user"]
-        self.pwd = test_config["gerrit"]["password"]
+        self.config = test_config
+
+        self.url = self.config["gerrit"]["url"]
+        self.user = self.config["gerrit"]["user"]
+        self.pwd = self.config["gerrit"]["password"]
 
         self.timeout = (
-            time.time() + test_config["testrun"]["duration"]
-            if test_config["testrun"]["duration"]
+            time.time() + self.config["testrun"]["duration"]
+            if self.config["testrun"]["duration"]
             else None
         )
 
-        self.action_config = test_config["actions"]
+        self.action_config = self.config["actions"]
 
         self.owned_projects = set()
-        if test_config["testrun"]["initialization"]["knownProjects"]:
+        if self.config["testrun"]["initialization"]["knownProjects"]:
             self.owned_projects = set(
-                test_config["testrun"]["initialization"]["knownProjects"]
+                self.config["testrun"]["initialization"]["knownProjects"]
             )
 
         self.cloned_projects = set()
 
-        if test_config["testrun"]["initialization"]["createProjects"]["enabled"]:
+        if self.config["testrun"]["initialization"]["createProjects"]["enabled"]:
             self._create_initial_projects(
-                test_config["testrun"]["initialization"]["createProjects"]["number"]
+                self.config["testrun"]["initialization"]["createProjects"]["number"]
             )
 
         self.log = logging.getLogger("ActionLogger")
@@ -62,7 +64,11 @@ class LoadTestInstance:
             if self.timeout and time.time() >= self.timeout:
                 break
 
-            self._wait_random_seconds(1, 10)
+            if self.config["testrun"]["waitBetweenCycles"]["enabled"]:
+                self._wait_random_seconds(
+                    self.config["testrun"]["waitBetweenCycles"]["min"],
+                    self.config["testrun"]["waitBetweenCycles"]["max"],
+                )
 
             self._exec_create_project_action()
             self._exec_list_projects_action()

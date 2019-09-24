@@ -53,6 +53,9 @@ The single configuration values are listed here:
 | `testrun.initialization.createProjects.enabled` | Whether to create new projects during initialization                                  | `true`                  |
 | `testrun.initialization.createProjects.number`  | How many new projects to create during initialization                                 | `1`                     |
 | `testrun.initialization.knownProjects`          | List of projects that the simulated user knows of from the beginning                  | `nil`                   |
+| `testrun.waitBetweenCycles.enabled`             | Whether to pause between test cycles                                                  | `true`                  |
+| `testrun.waitBetweenCycles.min`                 | Minimum time of pause                                                                 | `1`                     |
+| `testrun.waitBetweenCycles.max`                 | Maximum time of pause                                                                 | `10`                    |
 | `actions.*`                                     | Probability with which an action is performed in each cycle (`0`: never, `1`: always) | `1`                     |
 
 ### Available actions
