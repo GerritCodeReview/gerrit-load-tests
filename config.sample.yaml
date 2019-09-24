@@ -9,6 +9,7 @@ testrun:
     createProjects:
       enabled: true
       number: 1
+    knownProjects: []
 
 actions:
   clone_project:

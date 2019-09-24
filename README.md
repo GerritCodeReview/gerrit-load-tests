@@ -52,6 +52,7 @@ The single configuration values are listed here:
 | `testrun.duration`                              | Duration for which to run the tests                                                   | `null` (indefinitely)   |
 | `testrun.initialization.createProjects.enabled` | Whether to create new projects during initialization                                  | `true`                  |
 | `testrun.initialization.createProjects.number`  | How many new projects to create during initialization                                 | `1`                     |
+| `testrun.initialization.knownProjects`          | List of projects that the simulated user knows of from the beginning                  | `nil`                   |
 | `actions.*`                                     | Probability with which an action is performed in each cycle (`0`: never, `1`: always) | `1`                     |
 
 ### Available actions

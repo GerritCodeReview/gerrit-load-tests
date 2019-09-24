@@ -22,7 +22,10 @@ DEFAULTS = {
     "gerrit": {"url": None, "user": "admin", "password": "secret"},
     "testrun": {
         "duration": None,
-        "initialization": {"createProjects": {"enabled": True, "number": 1}},
+        "initialization": {
+            "createProjects": {"enabled": True, "number": 1},
+            "knownProjects": list(),
+        },
     },
     "actions": {
         "clone_project": {"probability": 1},

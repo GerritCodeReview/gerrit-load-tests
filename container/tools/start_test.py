@@ -43,6 +43,11 @@ class LoadTestInstance:
         self.action_config = test_config["actions"]
 
         self.owned_projects = set()
+        if test_config["testrun"]["initialization"]["knownProjects"]:
+            self.owned_projects = set(
+                test_config["testrun"]["initialization"]["knownProjects"]
+            )
+
         self.cloned_projects = set()
 
         if test_config["testrun"]["initialization"]["createProjects"]["enabled"]:
