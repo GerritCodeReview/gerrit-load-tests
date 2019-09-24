@@ -19,6 +19,16 @@ import yaml
 DEFAULTS = {
     "gerrit": {"url": None, "user": "admin", "password": "secret"},
     "testrun": {"duration": None},
+    "actions": {
+        "clone_project": {"probability": 1},
+        "create_project": {"probability": 1},
+        "fetch_project": {"probability": 1},
+        "push_for_review": {"probability": 1},
+        "push_to_branch": {"probability": 1},
+        "query_changes": {"probability": 1},
+        "query_projects": {"probability": 1},
+        "review_change": {"probability": 1},
+    },
 }
 
 ARG_TO_CONFIG_MAPPING = {

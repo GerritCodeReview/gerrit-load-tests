@@ -1,5 +1,5 @@
 [MESSAGES CONTROL]
-disable=C0111, R0903, R0913, C0330
+disable=C0111, R0903, R0913, C0330, R0902
 
 [FORMAT]
 good-names=i,f

@@ -21,9 +21,6 @@ from . import abstract
 
 
 class QueryChangesAction(abstract.AbstractAction):
-    def __init__(self, url, user, pwd, probability=0.2):
-        super().__init__(url, user, pwd, probability)
-
     def _execute_action(self):
         rest_url = self._assemble_url()
         response = requests.get(rest_url, auth=(self.user, self.pwd))

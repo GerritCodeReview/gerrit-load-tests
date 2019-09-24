@@ -20,7 +20,7 @@ from . import abstract
 
 
 class QueryChangeFilesAction(abstract.AbstractAction):
-    def __init__(self, change_id, url, user, pwd, probability=0.2):
+    def __init__(self, change_id, url, user, pwd, probability=1):
         super().__init__(url, user, pwd, probability)
         self.change_id = change_id
         self.revision_id = 1

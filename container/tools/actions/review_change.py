@@ -22,7 +22,7 @@ from .query_change_files import QueryChangeFilesAction
 
 # pylint: disable=W0703
 class ReviewChangeAction(abstract.AbstractAction):
-    def __init__(self, url, user, pwd, probability=0.3):
+    def __init__(self, url, user, pwd, probability=1):
         super().__init__(url, user, pwd, probability)
         self.change_id = self._get_change_id()
         self.revision_id = 1

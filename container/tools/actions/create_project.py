@@ -23,7 +23,7 @@ PROJECT_NAME_LENGTH = 16
 
 
 class CreateProjectAction(abstract.AbstractAction):
-    def __init__(self, url, user, pwd, probability=0.00002):
+    def __init__(self, url, user, pwd, probability=1):
         super().__init__(url, user, pwd, probability)
         self.project_name = self._get_random_project_name()
 

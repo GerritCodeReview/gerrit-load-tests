@@ -22,7 +22,7 @@ from . import abstract
 
 
 class FetchProjectAction(abstract.AbstractAction):
-    def __init__(self, project_name, probability=0.1):
+    def __init__(self, project_name, probability=1):
         super().__init__(url=None, user=None, pwd=None, probability=probability)
         self.project_name = project_name
 

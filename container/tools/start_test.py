@@ -40,6 +40,8 @@ class LoadTestInstance:
             else None
         )
 
+        self.action_config = test_config["actions"]
+
         self.owned_projects = set()
         self.cloned_projects = set()
 
@@ -88,13 +90,23 @@ class LoadTestInstance:
         return np.random.choice(input_list, 1, p=probabilities).tolist()[0]
 
     def _exec_create_project_action(self):
-        action = actions.CreateProjectAction(self.url, self.user, self.pwd)
+        action = actions.CreateProjectAction(
+            self.url,
+            self.user,
+            self.pwd,
+            self.action_config["create_project"]["probability"],
+        )
         project_name = action.execute()
         if not action.failed and project_name:
             self.owned_projects.add(project_name)
 
     def _exec_list_projects_action(self):
-        action = actions.QueryProjectsAction(self.url, self.user, self.pwd)
+        action = actions.QueryProjectsAction(
+            self.url,
+            self.user,
+            self.pwd,
+            self.action_config["query_projects"]["probability"],
+        )
         project_name = action.execute()
         if not action.failed and project_name:
             self.owned_projects.add(project_name)
@@ -105,6 +117,7 @@ class LoadTestInstance:
             self.user,
             self.pwd,
             self._choose_from_list_poisson(list(self.owned_projects)),
+            self.action_config["clone_project"]["probability"],
         )
         action.execute()
         if not action.failed and action.was_executed:
@@ -112,28 +125,41 @@ class LoadTestInstance:
 
     def _exec_fetch_project_action(self):
         action = actions.FetchProjectAction(
-            self._choose_from_list_poisson(list(self.cloned_projects))
+            self._choose_from_list_poisson(list(self.cloned_projects)),
+            self.action_config["fetch_project"]["probability"],
         )
         action.execute()
 
     def _exec_push_commit_action(self):
         action = actions.PushToBranchAction(
-            self._choose_from_list_poisson(list(self.cloned_projects))
+            self._choose_from_list_poisson(list(self.cloned_projects)),
+            self.action_config["push_to_branch"]["probability"],
         )
         action.execute()
 
     def _exec_push_change_action(self):
         action = actions.PushForReviewAction(
-            self._choose_from_list_poisson(list(self.cloned_projects))
+            self._choose_from_list_poisson(list(self.cloned_projects)),
+            self.action_config["push_for_review"]["probability"],
         )
         action.execute()
 
     def _exec_query_changes_action(self):
-        action = actions.QueryChangesAction(self.url, self.user, self.pwd)
+        action = actions.QueryChangesAction(
+            self.url,
+            self.user,
+            self.pwd,
+            self.action_config["query_changes"]["probability"],
+        )
         action.execute()
 
     def _exec_review_change_action(self):
-        action = actions.ReviewChangeAction(self.url, self.user, self.pwd)
+        action = actions.ReviewChangeAction(
+            self.url,
+            self.user,
+            self.pwd,
+            self.action_config["review_change"]["probability"],
+        )
         action.execute()
 
 

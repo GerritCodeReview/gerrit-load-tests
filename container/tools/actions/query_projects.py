@@ -23,9 +23,6 @@ DISALLOWED_PROJECTS = ["All-Projects", "All-Users"]
 
 
 class QueryProjectsAction(abstract.AbstractAction):
-    def __init__(self, url, user, pwd, probability=0.05):
-        super().__init__(url, user, pwd, probability)
-
     def _execute_action(self):
         selected_project = None
         rest_url = self._assemble_url()

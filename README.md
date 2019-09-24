@@ -44,12 +44,28 @@ A configuration file in yaml-format can be used to configure the test run. The
 
 The single configuration values are listed here:
 
-| key                | description                         | default value           |
-|--------------------|-------------------------------------|-------------------------|
-| `gerrit.url`       | URL of the Gerrit test server       | `http://localhost:8080` |
-| `gerrit.user`      | Gerrit user used for tests          | `admin`                 |
-| `gerrit.password`  | Password of Gerrit user             | `secret`                |
-| `testrun.duration` | Duration for which to run the tests | `null` (indefinitely)   |
+| key                | description                                                                           | default value           |
+|--------------------|---------------------------------------------------------------------------------------|-------------------------|
+| `gerrit.url`       | URL of the Gerrit test server                                                         | `http://localhost:8080` |
+| `gerrit.user`      | Gerrit user used for tests                                                            | `admin`                 |
+| `gerrit.password`  | Password of Gerrit user                                                               | `secret`                |
+| `testrun.duration` | Duration for which to run the tests                                                   | `null` (indefinitely)   |
+| `actions.*`        | Probability with which an action is performed in each cycle (`0`: never, `1`: always) | `1`                     |
+
+### Available actions
+
+The following actions can be performed by the tests:
+
+| key               | description                                                                              |
+|-------------------|------------------------------------------------------------------------------------------|
+| `clone_project`   | Test performs a clone of a project, that is assigned to the simulated user               |
+| `create_project`  | Test creates a new project via REST                                                      |
+| `fetch_project`   | Test fetches a project, that is assigned to the simulated user and was already cloned    |
+| `push_for_review` | Test creates random commits in a cloned project and pushes them to `refs/for/master`     |
+| `push_to_branch`  | Test creates random commits in a cloned project and pushes them to the remote's `master` |
+| `query_changes`   | Queries changes via REST                                                                 |
+| `query_projects`  | Queries projects via REST                                                                |
+| `review_change`   | Reviews a change via REST                                                                |
 
 ## Run
 
