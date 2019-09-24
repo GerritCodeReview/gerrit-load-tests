@@ -16,6 +16,8 @@ import os.path
 
 import yaml
 
+from .helper_dict import left_outer_join
+
 DEFAULTS = {
     "gerrit": {"url": None, "user": "admin", "password": "secret"},
     "testrun": {"duration": None},
@@ -47,9 +49,8 @@ class Parser:
 
     def parse(self):
         if self.args["config_file"]:
-            for category, category_dict in self._parse_config_file().items():
-                for option, value in category_dict.items():
-                    self.config[category][option] = value
+            config_from_file = self._parse_config_file()
+            self.config = left_outer_join(DEFAULTS, config_from_file)
 
         self._apply_args()
 
