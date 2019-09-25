@@ -29,7 +29,7 @@ data:
         probability: 1
       push_head_to_master:
         probability: 1
-      query_changes:
+      query_hundred_open_changes:
         probability: 1
       query_projects:
         probability: 1

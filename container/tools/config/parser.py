@@ -34,7 +34,7 @@ DEFAULTS = {
         "fetch_project": {"probability": 1},
         "push_for_review": {"probability": 1},
         "push_head_to_master": {"probability": 1},
-        "query_changes": {"probability": 1},
+        "query_hundred_open_changes": {"probability": 1},
         "query_projects": {"probability": 1},
         "review_change": {"probability": 1},
     },

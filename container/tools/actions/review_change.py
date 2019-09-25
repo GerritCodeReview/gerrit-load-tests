@@ -17,7 +17,7 @@ import random
 import requests
 
 from . import abstract
-from .query_changes import QueryChangesAction
+from .query_hundred_open_changes import QueryHundredOpenChanges
 from .query_change_files import QueryChangeFilesAction
 
 # pylint: disable=W0703
@@ -35,9 +35,9 @@ class ReviewChangeAction(abstract.AbstractAction):
 
     def _get_change_id(self):
         try:
-            return QueryChangesAction(self.url, self.user, self.pwd, 1.0).execute()[
-                "change_id"
-            ]
+            return QueryHundredOpenChanges(
+                self.url, self.user, self.pwd, 1.0
+            ).execute()["change_id"]
         except Exception:
             return None
 

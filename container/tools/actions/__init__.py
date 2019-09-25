@@ -18,6 +18,6 @@ from .fetch_project import FetchProjectAction
 from .push_for_review import PushForReviewAction
 from .push_head_to_master import PushHeadToMasterAction
 from .query_change_files import QueryChangeFilesAction
-from .query_changes import QueryChangesAction
+from .query_hundred_open_changes import QueryHundredOpenChanges
 from .query_projects import QueryProjectsAction
 from .review_change import ReviewChangeAction

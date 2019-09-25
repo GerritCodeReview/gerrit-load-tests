@@ -81,7 +81,7 @@ class LoadTestInstance:
                 self._exec_push_head_to_master_action()
                 self._exec_push_change_action()
 
-            self._exec_query_changes_action()
+            self._exec_query_hundred_open_changes_action()
             self._exec_review_change_action()
 
     def _create_initial_projects(self, num_init_projects):
@@ -158,12 +158,12 @@ class LoadTestInstance:
         )
         action.execute()
 
-    def _exec_query_changes_action(self):
-        action = actions.QueryChangesAction(
+    def _exec_query_hundred_open_changes_action(self):
+        action = actions.QueryHundredOpenChanges(
             self.url,
             self.user,
             self.pwd,
-            self.action_config["query_changes"]["probability"],
+            self.action_config["query_hundred_open_changes"]["probability"],
         )
         action.execute()
 

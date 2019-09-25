@@ -20,7 +20,7 @@ import requests
 from . import abstract
 
 
-class QueryChangesAction(abstract.AbstractAction):
+class QueryHundredOpenChanges(abstract.AbstractAction):
     def _execute_action(self):
         rest_url = self._assemble_url()
         response = requests.get(rest_url, auth=(self.user, self.pwd))
