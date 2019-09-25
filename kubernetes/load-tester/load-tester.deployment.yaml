@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gerrit-load-tester
+spec:
+  replicas: 1 # Represents number of concurrent threads
+  selector:
+    matchLabels:
+      app: gerrit-load-tester
+  template:
+    metadata:
+      annotations:
+        fluentbit.io/parser: loadtester
+      labels:
+        app: gerrit-load-tester
+    spec:
+      containers:
+      - name: gerrit-load-tester
+        image: gerrit/loadtester:test # Change, if other image is used
+        command:
+        - /bin/ash
+        - -ce
+        args:
+        - |
+          python3 ./start_test.py \
+            -c /var/config/test.yaml \
+            -u $GERRIT_USER \
+            -p $GERRIT_PWD
+        env:
+        - name: GERRIT_USER
+          valueFrom:
+            secretKeyRef:
+              name: load-test-secret
+              key: user
+        - name: GERRIT_PWD
+          valueFrom:
+            secretKeyRef:
+              name: load-test-secret
+              key: pwd
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        volumeMounts:
+          - name: config
+            mountPath: "/var/config/test.yaml"
+            subPath: test.yaml
+      volumes:
+        - name: config
+          configMap:
+            name: load-test-config

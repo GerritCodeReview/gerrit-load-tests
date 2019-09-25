@@ -112,7 +112,24 @@ The options are:
 
 The docker containers may be used to run the load tests in Kubernetes to simulate
 multiple users (each instance acts as a single user). This project provides an
-example deployment yaml: `./load-tester.deployment.yaml`.
+example deployment yaml: `./kubernetes/load-tester/load-tester.*.yaml`.
+To install the Kubernetes setup, adjust the configuration in the yaml-files.
+
+- Configure the Gerrit user data in `./kubernetes/load-tester/load-tester.secret.yaml`.
+  The values have to be base64-encoded.
+- Adjust the configuration file in `./kubernetes/load-tester/load-tester.configmap.yaml`.
+  The config-file structure is the same as described above.
+- Adjust the number of replica-pods and the location of the docker image in
+  `./kubernetes/load-tester/load-tester.deployment.yaml`.
+
+Afterwards, create all resources on the cluster:
+
+```sh
+Kubectl apply ./kubernetes/load-tester/load-tester.secret.yaml
+Kubectl apply ./kubernetes/load-tester/load-tester.configmap.yaml
+Kubectl apply ./kubernetes/load-tester/load-tester.deployment.yaml
+```
+
 Further, an example deployment for a logging stack based on ElasticSearch,
 FluentBit and Kibana to collect the logs created by the load testing scripts is
 provided in `./efk/`.
