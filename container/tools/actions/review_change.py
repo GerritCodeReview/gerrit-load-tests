@@ -60,5 +60,5 @@ class ReviewChangeAction(abstract.AbstractAction):
 
     def _list_files(self):
         return QueryChangeFilesAction(
-            self.change_id, self.url, self.user, self.pwd, 1.0
+            self.url, self.user, self.pwd, self.change_id, probability=1.0
         ).execute()

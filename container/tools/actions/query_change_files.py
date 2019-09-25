@@ -20,10 +20,10 @@ from . import abstract
 
 
 class QueryChangeFilesAction(abstract.AbstractAction):
-    def __init__(self, change_id, url, user, pwd, probability=1):
+    def __init__(self, url, user, pwd, change_id, revision_id="current", probability=1):
         super().__init__(url, user, pwd, probability)
         self.change_id = change_id
-        self.revision_id = 1
+        self.revision_id = revision_id
 
     def _execute_action(self):
         response = requests.get(self._assemble_url(), auth=(self.user, self.pwd))
