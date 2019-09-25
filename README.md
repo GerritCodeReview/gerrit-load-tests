@@ -134,6 +134,25 @@ Further, an example deployment for a logging stack based on ElasticSearch,
 FluentBit and Kibana to collect the logs created by the load testing scripts is
 provided in `./efk/`.
 
+To install the EFK-stack, run:
+
+```sh
+helm install stable/elasticsearch \
+  -n elasticsearch \
+  -f ./kubernetes/efk/elasticsearch.yaml \
+  --namespace logging
+
+helm install stable/fluent-bit \
+  -n fluentbit \
+  -f ./kubernetes/efk/fluentbit.yaml \
+  --namespace logging
+
+helm install stable/kibana \
+  -f kubernetes/efk/kibana.yaml \
+  -n kibana \
+  --namespace logging
+```
+
 ## Links
 
 [1] https://github.com/pypa/pipenv
