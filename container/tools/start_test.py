@@ -78,7 +78,7 @@ class LoadTestInstance:
 
             if self.cloned_projects:
                 self._exec_fetch_project_action()
-                self._exec_push_commit_action()
+                self._exec_push_head_to_master_action()
                 self._exec_push_change_action()
 
             self._exec_query_changes_action()
@@ -144,10 +144,10 @@ class LoadTestInstance:
         )
         action.execute()
 
-    def _exec_push_commit_action(self):
-        action = actions.PushToBranchAction(
+    def _exec_push_head_to_master_action(self):
+        action = actions.PushHeadToMasterAction(
             self._choose_from_list_poisson(list(self.cloned_projects)),
-            self.action_config["push_to_branch"]["probability"],
+            self.action_config["push_head_to_master"]["probability"],
         )
         action.execute()
 

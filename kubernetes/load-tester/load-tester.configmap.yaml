@@ -27,7 +27,7 @@ data:
         probability: 1
       push_for_review:
         probability: 1
-      push_to_branch:
+      push_head_to_master:
         probability: 1
       query_changes:
         probability: 1

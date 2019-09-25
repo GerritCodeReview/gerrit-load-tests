@@ -16,7 +16,7 @@ from .clone_project import CloneProjectAction
 from .create_project import CreateProjectAction
 from .fetch_project import FetchProjectAction
 from .push_for_review import PushForReviewAction
-from .push_to_branch import PushToBranchAction
+from .push_head_to_master import PushHeadToMasterAction
 from .query_change_files import QueryChangeFilesAction
 from .query_changes import QueryChangesAction
 from .query_projects import QueryProjectsAction

@@ -16,7 +16,7 @@ from . import abstract_push
 from .fetch_project import FetchProjectAction
 
 
-class PushToBranchAction(abstract_push.AbstractPushAction):
+class PushHeadToMasterAction(abstract_push.AbstractPushAction):
     def __init__(self, project_name, probability=1):
         super().__init__("HEAD:master", project_name, probability=probability)
 

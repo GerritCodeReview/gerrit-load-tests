@@ -33,7 +33,7 @@ DEFAULTS = {
         "create_project": {"probability": 1},
         "fetch_project": {"probability": 1},
         "push_for_review": {"probability": 1},
-        "push_to_branch": {"probability": 1},
+        "push_head_to_master": {"probability": 1},
         "query_changes": {"probability": 1},
         "query_projects": {"probability": 1},
         "review_change": {"probability": 1},

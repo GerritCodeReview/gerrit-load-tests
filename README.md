@@ -70,16 +70,16 @@ The single configuration values are listed here:
 
 The following actions can be performed by the tests:
 
-| key               | description                                                                              |
-|-------------------|------------------------------------------------------------------------------------------|
-| `clone_project`   | Test performs a clone of a project, that is assigned to the simulated user               |
-| `create_project`  | Test creates a new project via REST                                                      |
-| `fetch_project`   | Test fetches a project, that is assigned to the simulated user and was already cloned    |
-| `push_for_review` | Test creates random commits in a cloned project and pushes them to `refs/for/master`     |
-| `push_to_branch`  | Test creates random commits in a cloned project and pushes them to the remote's `master` |
-| `query_changes`   | Queries changes via REST                                                                 |
-| `query_projects`  | Queries projects via REST                                                                |
-| `review_change`   | Reviews a change via REST                                                                |
+| key                   | description                                                                              |
+|-----------------------|------------------------------------------------------------------------------------------|
+| `clone_project`       | Test performs a clone of a project, that is assigned to the simulated user               |
+| `create_project`      | Test creates a new project via REST                                                      |
+| `fetch_project`       | Test fetches a project, that is assigned to the simulated user and was already cloned    |
+| `push_for_review`     | Test creates random commits in a cloned project and pushes them to `refs/for/master`     |
+| `push_head_to_master` | Test creates random commits in a cloned project and pushes them to the remote's `master` |
+| `query_changes`       | Queries changes via REST                                                                 |
+| `query_projects`      | Queries projects via REST                                                                |
+| `review_change`       | Reviews a change via REST                                                                |
 
 ## Run
 
