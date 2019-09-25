@@ -3,6 +3,14 @@
 This project provides a tool to load test Gerrit by running a set of actions
 typically used by Gerrit users.
 
+The test relies heavily on randomness. The script will for the duration of the
+tests loop through all possible actions that are defined. For each action it will
+calculate a random number between 0 and 1 and execute the action if the number
+is higher than a configured threshold. Thus, depending on the configuration, not
+all actions will be executed in each cycle of the loop, thereby simulating that
+users will not always do the same series of actions. By adjusting the probability
+thresholds different scenarios based on statistics can be simulated.
+
 ## Requirements
 
 - Python 3
