@@ -24,10 +24,11 @@ from .query_change_files import QueryChangeFilesAction
 class ReviewChangeAction(abstract.AbstractAction):
     def __init__(self, url, user, pwd, probability=1):
         super().__init__(url, user, pwd, probability)
-        self.change_id = self._get_change_id()
+        self.change_id = None
         self.revision_id = 1
 
     def _execute_action(self):
+        self.change_id = self._get_change_id()
         rest_url = self._assemble_review_url()
         requests.post(rest_url, auth=(self.user, self.pwd), json=self._assemble_body())
         self.was_executed = True
