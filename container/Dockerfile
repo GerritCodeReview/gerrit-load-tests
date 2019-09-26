@@ -10,7 +10,7 @@ RUN apk --no-cache --update-cache add git gcc gfortran build-base
 COPY dependencies/ ./
 
 RUN pip3 install --no-cache --upgrade pipenv && \
-    pipenv install --python 3.7.3 --system
+    pipenv install --python 3.7 --system
 
 COPY tools/ ./
 
