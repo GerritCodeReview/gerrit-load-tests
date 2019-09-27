@@ -32,6 +32,8 @@ class AbstractAction(abc.ABC):
 
     def execute(self):
         if self._is_executed():
+            self.log.debug("Executing %s", self.__class__.__name__)
+
             try:
                 return self._execute_action()
             except Exception:
