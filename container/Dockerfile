@@ -14,4 +14,10 @@ RUN pip3 install --no-cache --upgrade pipenv && \
 
 COPY tools/ ./
 
+RUN adduser -D loadtest -u 1000 -G users && \
+    chown -R 1000:100 /usr/src/app && \
+    mkdir -p /var/logs && \
+    chown -R 1000:100 /var/logs
+USER loadtest
+
 ENTRYPOINT [ "python3", "./start_test.py" ]
