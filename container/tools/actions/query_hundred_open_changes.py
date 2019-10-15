@@ -21,13 +21,19 @@ from . import abstract
 
 
 class QueryHundredOpenChanges(abstract.AbstractAction):
+    def __init__(self, url, user, pwd, probability=1.0):
+        super().__init__(url, user, pwd, probability=probability)
+        self.change = dict()
+
     def _execute_action(self):
         rest_url = self._assemble_url()
         response = requests.get(rest_url, auth=(self.user, self.pwd))
         self.was_executed = True
-        change = random.choice(json.loads(response.text.split("\n", 1)[1]))
-        self._log_result(change["change_id"])
-        return change
+        self.change = random.choice(json.loads(response.text.split("\n", 1)[1]))
+        return self.change
+
+    def _create_log_message(self):
+        return self.change["change_id"]
 
     def _assemble_url(self):
         return "%s/a/changes/?q=status:open&n=100" % (self.url)

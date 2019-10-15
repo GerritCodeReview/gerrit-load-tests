@@ -24,12 +24,15 @@ class QueryChangeFilesAction(abstract.AbstractAction):
         super().__init__(url, user, pwd, probability)
         self.change_id = change_id
         self.revision_id = revision_id
+        self.files = list()
 
     def _execute_action(self):
         response = requests.get(self._assemble_url(), auth=(self.user, self.pwd))
-        files = list(json.loads(response.text.split("\n", 1)[1]).keys())
-        self._log_result(files)
-        return files
+        self.files = list(json.loads(response.text.split("\n", 1)[1]).keys())
+        return self.files
+
+    def _create_log_message(self):
+        return self.files
 
     def _assemble_url(self):
         return "%s/a/changes/%s/revisions/%s/files" % (

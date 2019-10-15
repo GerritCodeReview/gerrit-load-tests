@@ -32,7 +32,9 @@ class ReviewChangeAction(abstract.AbstractAction):
         rest_url = self._assemble_review_url()
         requests.post(rest_url, auth=(self.user, self.pwd), json=self._assemble_body())
         self.was_executed = True
-        self._log_result()
+
+    def _create_log_message(self):
+        return self.change_id
 
     def _get_change_id(self):
         try:

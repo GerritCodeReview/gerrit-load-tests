@@ -23,17 +23,22 @@ DISALLOWED_PROJECTS = ["All-Projects", "All-Users"]
 
 
 class QueryProjectsAction(abstract.AbstractAction):
+    def __init__(self, url, user, pwd, probability=1.0):
+        super().__init__(url, user, pwd, probability=probability)
+        self.selected_project = None
+
     def _execute_action(self):
-        selected_project = None
         rest_url = self._assemble_url()
         response = requests.get(rest_url, auth=(self.user, self.pwd))
         self.was_executed = True
         projects = list(json.loads(response.text.split("\n", 1)[1]).keys())
         for project in DISALLOWED_PROJECTS:
             projects.remove(project)
-        selected_project = random.choice(projects)
-        self._log_result(selected_project)
-        return selected_project
+        self.selected_project = random.choice(projects)
+        return self.selected_project
+
+    def _create_log_message(self):
+        return self.selected_project
 
     def _assemble_url(self):
         return "%s/a/projects/?d" % (self.url)

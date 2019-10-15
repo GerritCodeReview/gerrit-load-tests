@@ -33,7 +33,9 @@ class CreateProjectAction(abstract.AbstractAction):
             rest_url, auth=(self.user, self.pwd), json={"create_empty_commit": "true"}
         )
         self.was_executed = True
-        self._log_result(self.project_name)
+        return self.project_name
+
+    def _create_log_message(self):
         return self.project_name
 
     def _assemble_url(self):

@@ -16,6 +16,8 @@ import abc
 import logging
 import traceback
 
+from datetime import datetime
+
 import numpy as np
 
 # pylint: disable=W0703
@@ -32,13 +34,22 @@ class AbstractAction(abc.ABC):
 
     def execute(self):
         if self._is_executed():
-            self.log.debug("Executing %s", self.__class__.__name__)
+            self.log.debug("%s STARTED", self.__class__.__name__)
 
             try:
-                return self._execute_action()
+                start = datetime.utcnow()
+                result = self._execute_action()
+                self._log_result(
+                    duration=datetime.utcnow() - start,
+                    message=self._create_log_message(),
+                )
+                return result
             except Exception:
                 self.failed = True
-                self._log_result(traceback.format_exc().replace("\n", " "))
+                self._log_result(
+                    duration=datetime.utcnow() - start,
+                    message=traceback.format_exc().replace("\n", " "),
+                )
 
         return None
 
@@ -46,11 +57,16 @@ class AbstractAction(abc.ABC):
     def _execute_action(self):
         pass
 
-    def _log_result(self, message=""):
+    @abc.abstractmethod
+    def _create_log_message(self):
+        pass
+
+    def _log_result(self, duration=0, message=""):
         self.log.info(
-            "%s %s %s",
+            "%s %s %.2f %s",
             self.__class__.__name__,
             "FAILED" if self.failed else "OK",
+            duration.total_seconds() * 1000,
             message,
         )
 

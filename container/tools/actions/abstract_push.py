@@ -30,6 +30,7 @@ class AbstractPushAction(abstract.AbstractAction):
         self.local_repo_path = os.path.join("/tmp", self.project_name)
         self.repo = git.Repo(self.local_repo_path)
         self.refspec = refspec
+        self.num_commits = random.randint(1, 5)
 
     @abc.abstractmethod
     def _prepare(self):
@@ -39,15 +40,17 @@ class AbstractPushAction(abstract.AbstractAction):
         self.repo.git.checkout("origin/master")
         self._prepare()
         if os.path.exists(self.local_repo_path):
-            num_commits = random.randint(1, 5)
-            for _ in range(num_commits):
+            for _ in range(self.num_commits):
                 self._create_commit()
             self.repo.remotes.origin.push(refspec=self.refspec)
             self.was_executed = True
-            self._log_result(
-                "Pushed %d commits to project %s using refspec %s"
-                % (num_commits, self.project_name, self.refspec)
-            )
+
+    def _create_log_message(self):
+        return "Pushed %d commits to project %s using refspec %s" % (
+            self.num_commits,
+            self.project_name,
+            self.refspec,
+        )
 
     def _create_commit(self):
         change_type_choice = random.choice(self.change_types)

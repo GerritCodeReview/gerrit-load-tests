@@ -33,4 +33,6 @@ class FetchProjectAction(abstract.AbstractAction):
             for remote in repo.remotes:
                 remote.fetch()
             self.was_executed = True
-            self._log_result(self.project_name)
+
+    def _create_log_message(self):
+        return self.project_name

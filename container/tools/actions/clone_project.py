@@ -34,7 +34,9 @@ class CloneProjectAction(abstract.AbstractAction):
         git.Repo.clone_from(self._assemble_url(), local_repo_path)
         self._install_commit_hook()
         self.was_executed = True
-        self._log_result(self.project_name)
+
+    def _create_log_message(self):
+        return self.project_name
 
     def _install_commit_hook(self):
         hook_path = os.path.join("/tmp", self.project_name, ".git/hooks/commit-msg")
