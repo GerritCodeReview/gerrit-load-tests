@@ -17,7 +17,12 @@ COPY tools/ ./
 RUN adduser -D loadtest -u 1000 -G users && \
     chown -R 1000:100 /usr/src/app && \
     mkdir -p /var/logs && \
-    chown -R 1000:100 /var/logs
+    mkdir -p /var/loadtest && \
+    chown -R 1000:100 /var/logs && \
+    chown -R 1000:100 /var/loadtest
 USER loadtest
 
-ENTRYPOINT [ "python3", "./start_test.py" ]
+RUN git config --global http.sslCAInfo /var/loadtest/ca-certificates.crt
+ENV REQUESTS_CA_BUNDLE=/var/loadtest/ca-certificates.crt
+
+ENTRYPOINT [ "./start.sh" ]

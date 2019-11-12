@@ -45,7 +45,12 @@ spec:
           - name: config
             mountPath: "/var/config/test.yaml"
             subPath: test.yaml
+          - name: certs
+            mountPath: "/var/loadtest/certs"
       volumes:
         - name: config
           configMap:
             name: load-test-config
+        - name: certs
+          secret:
+            secretName: load-test-ca-certs

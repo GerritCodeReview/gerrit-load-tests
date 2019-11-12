@@ -108,6 +108,15 @@ The options are:
 - `--url`: URL of Gerrit (REQUIRED; e.g. `https://gerrit.example.com`)
 - `--user` (default: `admin`): User to be used for executing actions
 
+If the target Gerrit server is using the HTTPS-protocol, the load test requires
+a valid not self-signed CA. Certificates that are mounted to the
+`/var/loadtest/certs` will be used to that perpose. This can be done like this:
+
+```sh
+docker run -it gerrit/loadtester \
+  -v <certificate dir>:/var/loadtest/certs
+```
+
 ### Kubernetes
 
 The docker containers may be used to run the load tests in Kubernetes to simulate
@@ -115,7 +124,8 @@ multiple users (each instance acts as a single user). This project provides an
 example deployment yaml: `./kubernetes/load-tester/load-tester.*.yaml`.
 To install the Kubernetes setup, adjust the configuration in the yaml-files.
 
-- Configure the Gerrit user data in `./kubernetes/load-tester/load-tester.secret.yaml`.
+- Configure the Gerrit user data and add certificates for HTTPS-connections
+  in `./kubernetes/load-tester/load-tester.secret.yaml`.
   The values have to be base64-encoded.
 - Adjust the configuration file in `./kubernetes/load-tester/load-tester.configmap.yaml`.
   The config-file structure is the same as described above.
