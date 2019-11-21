@@ -22,7 +22,7 @@ spec:
         - -ce
         args:
         - |
-          python3 ./start_test.py \
+          ./start.sh \
             -c /var/config/test.yaml \
             -u $GERRIT_USER \
             -p $GERRIT_PWD
