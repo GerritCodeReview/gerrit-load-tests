@@ -33,12 +33,6 @@ class LoadTestInstance:
         self.config = test_config
         self.log = logging.getLogger("ActionLogger")
 
-        if self.config["testrun"]["initialization"]["delay"]["enabled"]:
-            self._wait_random_seconds(
-                self.config["testrun"]["initialization"]["delay"]["min"],
-                self.config["testrun"]["initialization"]["delay"]["max"],
-            )
-
         self.url = self.config["gerrit"]["url"]
         self.user = self.config["gerrit"]["user"]
         self.pwd = self.config["gerrit"]["password"]
@@ -58,6 +52,13 @@ class LoadTestInstance:
             )
 
         self.cloned_projects = set()
+
+    def prerun(self):
+        if self.config["testrun"]["initialization"]["delay"]["enabled"]:
+            self._wait_random_seconds(
+                self.config["testrun"]["initialization"]["delay"]["min"],
+                self.config["testrun"]["initialization"]["delay"]["max"],
+            )
 
         if self.config["testrun"]["initialization"]["createProjects"]["enabled"]:
             self._create_initial_projects(
@@ -225,4 +226,5 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     test = LoadTestInstance(config.Parser(args).parse())
+    test.prerun()
     test.run()
