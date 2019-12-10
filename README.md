@@ -58,6 +58,9 @@ The single configuration values are listed here:
 | `gerrit.user`                                   | Gerrit user used for tests                                                            | `admin`                 |
 | `gerrit.password`                               | Password of Gerrit user                                                               | `secret`                |
 | `testrun.duration`                              | Duration for which to run the tests                                                   | `null` (indefinitely)   |
+| `testrun.initialization.delay.enabled`          | Whether to delay execution of a test run                                              | `true`                  |
+| `testrun.initialization.delay.min`              | Minimum initial delay in seconds                                                      | `0`                     |
+| `testrun.initialization.delay.max`              | Maximum initial delay in seconds                                                      | `300`                   |
 | `testrun.initialization.createProjects.enabled` | Whether to create new projects during initialization                                  | `true`                  |
 | `testrun.initialization.createProjects.number`  | How many new projects to create during initialization                                 | `1`                     |
 | `testrun.initialization.knownProjects`          | List of projects that the simulated user knows of from the beginning                  | `nil`                   |

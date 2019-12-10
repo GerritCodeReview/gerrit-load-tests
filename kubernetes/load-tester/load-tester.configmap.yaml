@@ -9,6 +9,10 @@ data:
     testrun:
       duration: null
       initialization:
+        delay:
+          enabled: true
+          min: 0
+          max: 300
         createProjects:
           enabled: true
           number: 1

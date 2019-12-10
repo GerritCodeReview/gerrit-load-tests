@@ -31,6 +31,13 @@ LOG_PATH = "/var/logs/loadtester.log"
 class LoadTestInstance:
     def __init__(self, test_config):
         self.config = test_config
+        self.log = logging.getLogger("ActionLogger")
+
+        if self.config["testrun"]["initialization"]["delay"]["enabled"]:
+            self._wait_random_seconds(
+                self.config["testrun"]["initialization"]["delay"]["min"],
+                self.config["testrun"]["initialization"]["delay"]["max"],
+            )
 
         self.url = self.config["gerrit"]["url"]
         self.user = self.config["gerrit"]["user"]
@@ -56,8 +63,6 @@ class LoadTestInstance:
             self._create_initial_projects(
                 self.config["testrun"]["initialization"]["createProjects"]["number"]
             )
-
-        self.log = logging.getLogger("ActionLogger")
 
     def run(self):
         while True:
@@ -92,9 +97,9 @@ class LoadTestInstance:
                 ).execute()
             )
 
-    @staticmethod
-    def _wait_random_seconds(min_wait, max_wait):
+    def _wait_random_seconds(self, min_wait, max_wait):
         wait_duration = random.randint(min_wait, max_wait)
+        self.log.info("Waiting for %d seconds.", wait_duration)
         time.sleep(wait_duration)
 
     @staticmethod

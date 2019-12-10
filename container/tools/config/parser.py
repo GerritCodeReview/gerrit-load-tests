@@ -23,6 +23,7 @@ DEFAULTS = {
     "testrun": {
         "duration": None,
         "initialization": {
+            "delay": {"enabled": True, "min": 0, "max": 300},
             "createProjects": {"enabled": True, "number": 1},
             "knownProjects": list(),
         },
