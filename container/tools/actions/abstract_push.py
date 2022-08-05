@@ -28,7 +28,10 @@ class AbstractPushAction(abstract.AbstractAction):
         self.project_name = project_name
         self.change_types = [self._add_file, self._modify_file, self._delete_file]
         self.local_repo_path = os.path.join("/tmp", self.project_name)
-        self.repo = git.Repo(self.local_repo_path)
+        try:
+            self.repo = git.Repo(self.local_repo_path)
+        except:
+            pass
         self.refspec = refspec
         self.num_commits = random.randint(1, 5)
 

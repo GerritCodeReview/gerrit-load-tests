@@ -25,7 +25,10 @@ import numpy as np
 import actions
 import config
 
-LOG_PATH = "/var/logs/loadtester.log"
+import datetime
+import threading
+
+LOG_PATH = os.getcwd() + "/loadtester-" + datetime.datetime.now().strftime('%Y%m%d-%H%M%S') + ".log"
 
 
 class LoadTestInstance:
@@ -183,6 +186,10 @@ class LoadTestInstance:
         action.execute()
 
 
+def testCallback(test):
+    test.prerun()
+    test.run()
+
 # pylint: disable=C0103
 if __name__ == "__main__":
 
@@ -220,11 +227,25 @@ if __name__ == "__main__":
     )
 
     parser.add_argument(
+        "-l",
+        "--length",
+        help="Test thread pool length",
+        dest="length",
+        action="store",
+        type=int,
+    )
+
+    parser.add_argument(
         "-c", "--config", help="Configuration file", dest="config_file", action="store"
     )
 
     args = parser.parse_args()
+    length = vars(args)['length']
+    if length == None:
+        length = 1
 
     test = LoadTestInstance(config.Parser(args).parse())
-    test.prerun()
-    test.run()
+
+    for i in range(length):
+        t = threading.Thread(target = testCallback, args = (test, ))
+        t.start()
