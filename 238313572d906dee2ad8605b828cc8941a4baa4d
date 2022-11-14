@@ -74,6 +74,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "e4290e01_45bf264e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-11-14T09:48:13Z",
+      "side": 1,
+      "message": ":-) thanks, didn\u0027t spot that this change is already merged",
+      "parentUuid": "a493a942_c858f86e",
+      "revId": "238313572d906dee2ad8605b828cc8941a4baa4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "44dbfb5d_1c3bbd29",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
