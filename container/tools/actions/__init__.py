@@ -21,3 +21,4 @@ from .query_change_files import QueryChangeFilesAction
 from .query_hundred_open_changes import QueryHundredOpenChanges
 from .query_projects import QueryProjectsAction
 from .review_change import ReviewChangeAction
+from .abandon_change import AbandonChangeAction
