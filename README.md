@@ -75,6 +75,7 @@ The following actions can be performed by the tests:
 
 | key                          | description                                                                              |
 |------------------------------|------------------------------------------------------------------------------------------|
+| `abandon_change`             | Abandons a change via REST                                                               |
 | `clone_project`              | Test performs a clone of a project, that is assigned to the simulated user               |
 | `create_project`             | Test creates a new project via REST                                                      |
 | `fetch_project`              | Test fetches a project, that is assigned to the simulated user and was already cloned    |

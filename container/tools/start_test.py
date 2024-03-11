@@ -89,6 +89,7 @@ class LoadTestInstance:
 
             self._exec_query_hundred_open_changes_action()
             self._exec_review_change_action()
+            self._exec_abandon_change_action()
 
     def _create_initial_projects(self, num_init_projects):
         for _ in range(num_init_projects):
@@ -179,6 +180,15 @@ class LoadTestInstance:
             self.user,
             self.pwd,
             self.action_config["review_change"]["probability"],
+        )
+        action.execute()
+
+    def _exec_abandon_change_action(self):
+        action = actions.AbandonChangeAction(
+            self.url,
+            self.user,
+            self.pwd,
+            self.action_config["abandon_change"]["probability"],
         )
         action.execute()
 
