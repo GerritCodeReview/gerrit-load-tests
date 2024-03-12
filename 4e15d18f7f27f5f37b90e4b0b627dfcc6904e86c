@@ -22,6 +22,30 @@
       },
       "revId": "4e15d18f7f27f5f37b90e4b0b627dfcc6904e86c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9fb310e2_f4274bf5",
+        "filename": "container/tools/actions/abandon_change.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-03-12T15:33:25Z",
+      "side": 1,
+      "message": "AFACIS there is no QueryChangeAction yet",
+      "parentUuid": "a75ad679_628b4424",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 36
+      },
+      "revId": "4e15d18f7f27f5f37b90e4b0b627dfcc6904e86c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
