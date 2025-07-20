@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "048d5c85_f5d05302",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3931245
+      },
+      "writtenOn": "2025-07-20T06:25:11Z",
+      "side": 1,
+      "message": "Auto log all in infinix phone",
+      "revId": "dc49fd96de873170e2f37ffd16b746a3470658a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
